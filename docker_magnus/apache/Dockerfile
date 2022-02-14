@@ -41,9 +41,8 @@ RUN mkdir -p \
     tmp/cache/models \
     tmp/cache/persistent \
   && chown -R :www-data \
-    tmp \
-  && chmod -R 770 \
-    tmp
+    tmp 
+  #&& chmod -R 777 /
 
 EXPOSE 80
 EXPOSE 443

@@ -7,9 +7,12 @@ services:
       - ./mysql/:/docker-entrypoint-initdb.d/
     ports:
       - "3306:3306"
+
     restart: always 
     env_file:
       - ./config/db.env
+    networks:
+      - backend
 
 
   apache:
@@ -19,8 +22,14 @@ services:
     ports: 
       - "8000:80"
       - "8443:443"
+
     restart: always
     volumes:
      - ./apache/magnus/:/var/www/html/
      - ./apache/certs/mycert.crt:/etc/ssl/certs/mycert.crt
      - ./apache/private/mycert.key:/etc/ssl/private/mycert.key
+    networks:
+      - backend
+
+networks:
+  backend:
