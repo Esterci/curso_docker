@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  db: 
+    image: mysql_magnus 
+    volumes:
+      - ./mysql/:/docker-entrypoint-initdb.d/
+    ports:
+      - "3306:3306"
+    restart: always 
+    env_file:
+      - ./config/db.env
+
+
+  apache:
+    depends_on:
+      - db
+    image: phpapache_magnus
+    ports: 
+      - "8000:80"
+      - "8443:443"
+    restart: always
+    volumes:
+     - ./apache/magnus/:/var/www/html/
+     - ./apache/certs/mycert.crt:/etc/ssl/certs/mycert.crt
+     - ./apache/private/mycert.key:/etc/ssl/private/mycert.key
